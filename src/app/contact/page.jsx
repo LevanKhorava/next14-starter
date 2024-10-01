@@ -7,6 +7,11 @@ import dynamic from "next/dynamic";
 //   ssr: false,
 // });
 
+export const metadata = {
+  title: "Contact Page",
+  description: "Contact description",
+};
+
 const ContactPage = () => {
   // const a = Math.random();
   // console.log(a);

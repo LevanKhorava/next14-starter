@@ -1,10 +1,10 @@
+import { Post, User } from "./models";
+import { connectToDb } from "./utils";
+import { unstable_noStore as noStore } from "next/cache";
 // const users = [
 //   { userId: 1, name: "John" },
 //   { userId: 2, name: "Jane" },
 // ];
-
-import { Post, User } from "./models";
-import { connectToDb } from "./utils";
 
 // const posts = [
 //   { id: 1, title: "Post 1", body: ".......", userId: 1 },
@@ -27,7 +27,8 @@ export const getPosts = async () => {
 export const getPost = async (slug) => {
   try {
     connectToDb();
-    const post = await Post.find({ slug: slug });
+    const post = await Post.findOne({ slug: slug }); /// if u dont use findOne instead on find it will retuen array
+    console.log(post);
     return post;
   } catch (error) {
     console.log(error);
@@ -36,6 +37,7 @@ export const getPost = async (slug) => {
 };
 
 export const getUser = async (id) => {
+  noStore();
   try {
     connectToDb();
     const user = await User.findById(id);
@@ -45,7 +47,7 @@ export const getUser = async (id) => {
     throw new Error("Failed to fetch user");
   }
 };
-export const getUsers = async (id) => {
+export const getUsers = async () => {
   try {
     connectToDb();
     const users = await User.find();

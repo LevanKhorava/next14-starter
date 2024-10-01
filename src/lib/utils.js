@@ -1,5 +1,4 @@
-const { default: mongoose } = require("mongoose");
-
+import mongoose from "mongoose";
 const connection = {};
 
 export const connectToDb = async () => {
@@ -9,7 +8,7 @@ export const connectToDb = async () => {
       return;
     }
     const db = await mongoose.connect(process.env.MONGO);
-    connection.isConnected = db.connection[0].readyState;
+    connection.isConnected = db.connections[0].readyState;
   } catch (error) {
     console.log(error);
     throw new Error(error);

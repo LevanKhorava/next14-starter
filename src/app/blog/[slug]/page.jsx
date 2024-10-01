@@ -14,6 +14,16 @@ import { getPost } from "@/lib/data";
 //   return res.json();
 // };
 
+export const generateMetadata = async ({ params: { slug } }) => {
+  const post = await getPost(slug);
+  console.log(post);
+
+  return {
+    title: post.title,
+    description: post.desc,
+  };
+};
+
 const SinglePostPage = async ({ params: { slug } }) => {
   // FETCH DATA WITH AN API
   // const post = await getData(slug);
@@ -23,24 +33,14 @@ const SinglePostPage = async ({ params: { slug } }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.imgContainer}>
-        <Image
-          src="https://images.pexels.com/photos/28488474/pexels-photo-28488474/free-photo-of-elegant-woman-holding-red-flower-in-stylish-attire.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load"
-          alt=""
-          className={styles.img}
-          fill
-        />
-      </div>
+      {post.img && (
+        <div className={styles.imgContainer}>
+          <Image src={post.img} alt="" className={styles.img} fill />
+        </div>
+      )}
       <div className={styles.textContainer}>
         <h1 className={styles.title}>{post?.title}</h1>
         <div className={styles.detail}>
-          <Image
-            src="https://images.pexels.com/photos/28488474/pexels-photo-28488474/free-photo-of-elegant-woman-holding-red-flower-in-stylish-attire.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load"
-            alt=""
-            width={50}
-            height={50}
-            className={styles.avatar}
-          />
           {post && (
             <Suspense fallback={<div>Loadung..</div>}>
               <PostUser userId={post?.userId} />
@@ -51,7 +51,7 @@ const SinglePostPage = async ({ params: { slug } }) => {
             <span className={styles.detailValue}>02.01.2000</span>
           </div>
         </div>
-        <div className={styles.content}>{post?.body}</div>
+        <div className={styles.content}>{post.desc}</div>
       </div>
     </div>
   );
